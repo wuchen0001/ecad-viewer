@@ -815,8 +815,8 @@ export class SchematicPainter extends BaseSchematicPainter {
     }
 
     /**
-     * 高亮一组网络：追踪出属于这些网络的导线，用琥珀色"光晕 + 亮芯 + 端点亮斑"
-     * 描边到 :NetHighlight 图层。
+     * 高亮一组网络：追踪出属于这些网络的导线，用紫色"柔晕 + 加粗亮芯"
+     * 描边到 :NetHighlight 图层（颜色对齐 KiCad 内部网络高亮）。
      *
      * 与 board 侧的 paint_net 对应——绘制细节留在 painter，viewer 只负责协调
      * （收拢相机）。没追踪到任何导线时返回 null。
@@ -851,10 +851,7 @@ export class SchematicPainter extends BaseSchematicPainter {
             this.gfx.line(wire.pts, NET_HIGHLIGHT.width, NET_HIGHLIGHT.color);
         }
 
-        // ④ 接入点亮斑
-        for (const point of net.points) {
-            this.gfx.circle(point, NET_HIGHLIGHT.dot_radius, NET_HIGHLIGHT.color);
-        }
+        // ④ 接入点不另画标记：加粗亮芯与柔晕在端点自然汇聚成亮斑
 
         const graphics = this.gfx.end_layer();
 
